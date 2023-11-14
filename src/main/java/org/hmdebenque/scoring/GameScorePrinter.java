@@ -1,18 +1,12 @@
 package org.hmdebenque.scoring;
 
-import io.quarkus.qute.Template;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
-import java.util.Arrays;
-import java.util.List;
-
+@Singleton
 public class GameScorePrinter {
 
-    private final List<ScoreValue> GAME_WON = Arrays.asList(new ScoreValue[]{ScoreValue.WON, ScoreValue.LOST});
-
     @Inject
-    private Template template;
-
     private ScoringMessages scoringMessages;
 
     public String welcomeMessage() {
@@ -24,16 +18,35 @@ public class GameScorePrinter {
         ScoreValue scoreB = score.getScoreB();
 
         // Case game is running normally
+        if (score.isCounting()) {
+            return scoringMessages.announcement(mapCountingScore(scoreA), mapCountingScore(scoreB));
+        }
 
         // Case deuce
+        if (score.isDeuce()) {
+            return scoringMessages.announcement_deuce();
+        }
 
         // Case advantage
+        if (score.isAdvantage()) {
+            return scoringMessages.announcement_advantage(score.getAdvantaged());
+        }
 
         // Case game won
-        if (GAME_WON.contains(scoreA) && GAME_WON.contains(scoreB)) {
-
+        if (score.isFinished()) {
+            return scoringMessages.announcement_game_finished(score.getWinner());
         }
         return "";
+    }
+
+    private int mapCountingScore(ScoreValue scoreValue) {
+        return switch (scoreValue) {
+            case LOVE -> 0;
+            case FIFTEEN -> 15;
+            case THIRTY -> 30;
+            case FORTY -> 40;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
 }

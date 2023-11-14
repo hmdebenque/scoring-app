@@ -1,5 +1,7 @@
 package org.hmdebenque.scoring;
 
+import java.util.List;
+
 public enum ScoreValue {
     LOVE,
     FIFTEEN,
@@ -9,5 +11,7 @@ public enum ScoreValue {
     ADVANTAGE,
     DISADVANTAGE,
     WON,
-    LOST
+    LOST;
+    public static final List<ScoreValue> FINISHED_SCORES = List.of(WON, LOST);
+    public static final List<ScoreValue> COUNTING_SCORES = List.of(LOVE, FIFTEEN, THIRTY, FORTY);
 }

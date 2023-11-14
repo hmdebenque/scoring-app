@@ -9,4 +9,15 @@ public interface ScoringMessages {
     @Message("Welcome to the scoring app.")
     String welcome();
 
+    @Message("Player A : {scoreA} / Player B : {scoreB}")
+    String announcement(int scoreA, int scoreB);
+
+    @Message("Game is deuce")
+    String announcement_deuce();
+
+    @Message("Advantage to player {playerWithAdvantage}")
+    String announcement_advantage(String playerWithAdvantage);
+
+    @Message("Player {winner} wins the game")
+    String announcement_game_finished(String winner);
 }

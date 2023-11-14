@@ -4,17 +4,21 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @QuarkusTest
 class InputScannerTest {
 
     @Test
-    @Timeout(value = 1, unit = SECONDS) // Needed in case blocking bug occurs
+    @Timeout(value = 1, unit = SECONDS)
+        // Needed in case blocking bug occurs
     void exerciseTest() {
         try (PipedOutputStream src = new PipedOutputStream();
              PipedInputStream input = new PipedInputStream(src);) {

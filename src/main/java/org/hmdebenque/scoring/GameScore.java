@@ -1,10 +1,11 @@
 package org.hmdebenque.scoring;
 
 import static org.hmdebenque.scoring.ScoreValue.*;
-import static org.hmdebenque.scoring.ScoreValue.LOST;
 
 public class GameScore {
 
+    public static final String PLAYER_A = "A";
+    public static final String PLAYER_B = "B";
     private int scoreA = 0;
     private int scoreB = 0;
 
@@ -54,5 +55,38 @@ public class GameScore {
                 }
             }
         };
+    }
+
+    public boolean isFinished() {
+        return FINISHED_SCORES.contains(getScoreA()) && FINISHED_SCORES.contains(getScoreB());
+    }
+
+    public String getWinner() {
+        if (isFinished()) {
+            return getScoreA() == WON ? PLAYER_A : PLAYER_B;
+        }
+        return null;
+    }
+
+    public boolean isDeuce() {
+        return scoreA == scoreB;
+    }
+
+    /**
+     * True if players still have a counting score aka: love, 15, 30, 40.
+     */
+    public boolean isCounting() {
+        return COUNTING_SCORES.contains(getScoreA()) && COUNTING_SCORES.contains(getScoreB());
+    }
+
+    public boolean isAdvantage() {
+        return Math.abs(scoreA - scoreB) == 1 && Math.min(scoreA, scoreB) > 2;
+    }
+
+    public String getAdvantaged() {
+        if (isAdvantage()) {
+            return getScoreA() == ADVANTAGE ? PLAYER_A : PLAYER_B;
+        }
+        return null;
     }
 }
