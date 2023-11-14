@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2023 Henri-Mayeul de Benque
+Copyright (c) $YEAR Henri-Mayeul de Benque
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,39 +21,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package org.hmdebenque.scoring;
-
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.nio.charset.StandardCharsets;
-import org.junit.jupiter.api.Test;
-
-@QuarkusTest
-class ScoringAppTest {
-
-  @Inject ScoringApp scoringApp;
-
-  @Test
-  void nominalCase() throws Exception {
-    String scenario = "ABABAA";
-    executeScenario(scenario);
-  }
-
-  @Test
-  void deuceCase() throws Exception {
-    String scenario = "AAABBBBAAA";
-    executeScenario(scenario);
-  }
-
-  private void executeScenario(String scenario) throws IOException, InterruptedException {
-    PipedOutputStream src = new PipedOutputStream();
-    System.setIn(new PipedInputStream(src));
-    Thread gameThread = new Thread(scoringApp::run);
-    gameThread.start();
-    src.write(scenario.getBytes(StandardCharsets.UTF_8));
-    gameThread.join();
-  }
-}

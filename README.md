@@ -32,6 +32,15 @@ For example the following input “ABABAA” should print :
     “Player A : 40 / Player B : 30”
     “Player A wins the game
 
+
+## How to use
+
+build the [native executable](#Creating-a-native-executable) then run with:
+
+```shell
+ echo "ABABAA" | ./target/scoring-app-1.0.0-SNAPSHOT-runner
+```
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
